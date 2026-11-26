@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ArrowRight, CheckCircle2, Search } from 'lucide-react';
-import { PageId, ServiceCategory, SERVICES } from '../data/siteContent';
+import { assetPath, PageId, ServiceCategory, SERVICES } from '../data/siteContent';
 import { ResilientImage } from '../components/ResilientImage';
 
 interface ServicesPageProps {
@@ -51,7 +51,7 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
             <div className="lg:col-span-5 grid grid-cols-2 gap-4">
               <div className="aspect-[4/3] rounded-xl overflow-hidden border border-slate-200 bg-white">
                 <ResilientImage
-                  src="/src/assets/images/service_excel_data_1795671205384.jpg"
+                  src={assetPath('src/assets/images/service_excel_data_1795671205384.jpg')}
                   alt="MS Excel financial reporting and data entry"
                   fallbackLabel="Excel Services"
                   className="w-full h-full object-cover"
@@ -59,7 +59,7 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
               </div>
               <div className="aspect-[4/3] rounded-xl overflow-hidden border border-slate-200 bg-white">
                 <ResilientImage
-                  src="/src/assets/images/service_documents_cv_1795671206380.jpg"
+                  src={assetPath('src/assets/images/service_documents_cv_1795671206380.jpg')}
                   alt="MS Word reports and professional CV layout"
                   fallbackLabel="Word & CV Services"
                   className="w-full h-full object-cover"

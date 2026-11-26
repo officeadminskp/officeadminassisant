@@ -56,13 +56,24 @@ export interface Testimonial {
 }
 
 /**
+ * Resolves static asset URLs relative to Vite's configured BASE_URL
+ * so images load cleanly on both root domains and GitHub Pages subpaths.
+ */
+export function assetPath(relativePath: string): string {
+  const base = import.meta.env?.BASE_URL || './';
+  const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+  const cleanPath = relativePath.replace(/^\/+/, '');
+  return `${normalizedBase}${cleanPath}`;
+}
+
+/**
  * EASY-TO-UPDATE SITE CONFIGURATION
  * Edit phone numbers, email, social URLs, and copy here in one place.
  */
 export const SITE_CONFIG = {
   brandName: 'Office Admin Assistant',
   tagline: 'Your Trusted Partner for Professional Support',
-  logoPath: '/assets/aistudio/Office_Admin_Assistant_Logo_b94110ed.png',
+  logoPath: assetPath('assets/aistudio/Office_Admin_Assistant_Logo_b94110ed.png'),
   email: 'officeadminskp@gmail.com',
   phoneDisplay: '+1 (555) 284-9104',
   phoneHref: 'tel:+15552849104',
@@ -91,7 +102,7 @@ export const HERO_CONTENT = {
     'We provide reliable, accurate, and affordable administrative support to help you save time and grow your business.',
   primaryCta: 'Explore Our Services',
   secondaryCta: 'Contact Us',
-  heroImage: '/src/assets/images/hero_office_workspace_1795671205392.jpg',
+  heroImage: assetPath('src/assets/images/hero_office_workspace_1795671205392.jpg'),
   heroImageAlt:
     'Administrative specialist working at a bright modern navy-and-white executive desk with structured charts and formatted reports',
 };
@@ -345,7 +356,7 @@ export const PORTFOLIO_CASES: PortfolioCase[] = [
     category: 'Data & Spreadsheets',
     clientType: 'Regional Retail Distributor',
     timeframe: 'Delivered in 36 hours',
-    image: '/src/assets/images/service_excel_data_1795671205384.jpg',
+    image: assetPath('src/assets/images/service_excel_data_1795671205384.jpg'),
     imageAlt: 'Laptop showing structured Q3 financial performance spreadsheet and navy bar charts',
     summary:
       'Consolidated 14 disconnected monthly CSV exports into one automated Excel management workbook with error-checked formulas and monthly trend charts.',
@@ -368,7 +379,7 @@ export const PORTFOLIO_CASES: PortfolioCase[] = [
     category: 'Documents & Conversion',
     clientType: 'Advisory & Consulting Practice',
     timeframe: 'Delivered in 24 hours',
-    image: '/src/assets/images/service_documents_cv_1795671206380.jpg',
+    image: assetPath('src/assets/images/service_documents_cv_1795671206380.jpg'),
     imageAlt: 'Printed corporate annual report and structured resume document on a slate desk',
     summary:
       'Transformed raw unstyled drafts and scanned appendix tables into a cohesive, print-ready corporate report with automated navigation.',
@@ -391,7 +402,7 @@ export const PORTFOLIO_CASES: PortfolioCase[] = [
     category: 'Presentations & Career',
     clientType: 'B2B Logistics Company',
     timeframe: 'Delivered in 48 hours',
-    image: '/src/assets/images/portfolio_presentation_desk_1795671206898.jpg',
+    image: assetPath('src/assets/images/portfolio_presentation_desk_1795671206898.jpg'),
     imageAlt: 'Boardroom laptop displaying navy and cobalt Strategic Growth Q3 PowerPoint presentation',
     summary:
       'Redesigned a dense 34-slide internal briefing into a crisp 22-slide executive PowerPoint deck with clear charts and concise talking points.',
@@ -414,7 +425,7 @@ export const PORTFOLIO_CASES: PortfolioCase[] = [
     category: 'Documents & Conversion',
     clientType: 'Independent Accounting Firm',
     timeframe: 'Delivered in 18 hours',
-    image: '/src/assets/images/service_excel_data_1795671205384.jpg',
+    image: assetPath('src/assets/images/service_excel_data_1795671205384.jpg'),
     imageAlt: 'Clean financial spreadsheet table converted from scanned PDF records',
     summary:
       'Converted 180 pages of multi-column scanned PDF invoices and statements into reconciled, formula-verified Excel ledger sheets.',
@@ -436,7 +447,7 @@ export const PORTFOLIO_CASES: PortfolioCase[] = [
     category: 'Presentations & Career',
     clientType: 'Senior Operations & Academic Applicants',
     timeframe: 'Delivered in 24 hours',
-    image: '/src/assets/images/service_documents_cv_1795671206380.jpg',
+    image: assetPath('src/assets/images/service_documents_cv_1795671206380.jpg'),
     imageAlt: 'Formatted executive resume layout beside corporate report and tablet',
     summary:
       'Restructured cluttered multi-page work histories into clean, ATS-compatible resumes emphasizing quantified project outcomes.',
@@ -459,7 +470,7 @@ export const PORTFOLIO_CASES: PortfolioCase[] = [
     category: 'Virtual & Admin Support',
     clientType: 'Remote Architecture & Design Studio',
     timeframe: 'Ongoing Monthly Retainer',
-    image: '/src/assets/images/about_team_collaboration_1795671206170.jpg',
+    image: assetPath('src/assets/images/about_team_collaboration_1795671206170.jpg'),
     imageAlt: 'Administrative specialists organizing digital files and printed project briefs',
     summary:
       'Organized 4,200+ scattered cloud files, implemented daily email triage rules, and compiled verified supplier research spreadsheets.',
@@ -509,7 +520,7 @@ export const TESTIMONIALS: Testimonial[] = [
 ];
 
 export const ABOUT_CONTENT = {
-  teamImage: '/src/assets/images/about_team_collaboration_1795671206170.jpg',
+  teamImage: assetPath('src/assets/images/about_team_collaboration_1795671206170.jpg'),
   teamImageAlt:
     'Office Admin Assistant specialists reviewing formatted business reports and digital spreadsheets together',
   missionHeadline: 'Precision Administrative Support Built Around Your Deadlines',

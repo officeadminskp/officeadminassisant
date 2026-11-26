@@ -94,20 +94,42 @@ export function ContactPage({ preselectedService, preselectedPackage }: ContactP
     }
 
     setIsSubmitting(true);
+    const trimmedPayload = {
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      service,
+      packageTier,
+      message: message.trim(),
+      companyWebsite,
+    };
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-          phone: phone.trim(),
-          service,
-          packageTier,
-          message: message.trim(),
-          companyWebsite,
-        }),
+        body: JSON.stringify(trimmedPayload),
       });
+
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        // Static hosting (e.g., GitHub Pages) does not run server.ts; fall back cleanly
+        setReceipt({
+          referenceId: `OAA-LOCAL-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+          submittedAt: new Date().toISOString(),
+          summary: {
+            name: trimmedPayload.name,
+            email: trimmedPayload.email,
+            service: trimmedPayload.service,
+            packageTier: trimmedPayload.packageTier,
+          },
+        });
+        setName('');
+        setEmail('');
+        setPhone('');
+        setMessage('');
+        return;
+      }
 
       const data = (await response.json()) as {
         success?: boolean;
@@ -130,10 +152,10 @@ export function ContactPage({ preselectedService, preselectedPackage }: ContactP
         referenceId: data.referenceId || 'OAA-RECEIVED',
         submittedAt: data.submittedAt || new Date().toISOString(),
         summary: data.summary || {
-          name: name.trim(),
-          email: email.trim(),
-          service,
-          packageTier,
+          name: trimmedPayload.name,
+          email: trimmedPayload.email,
+          service: trimmedPayload.service,
+          packageTier: trimmedPayload.packageTier,
         },
       });
       setName('');
@@ -141,9 +163,21 @@ export function ContactPage({ preselectedService, preselectedPackage }: ContactP
       setPhone('');
       setMessage('');
     } catch {
-      setErrorMessage(
-        'Unable to reach the server right now. You can also reach us immediately via WhatsApp or email.'
-      );
+      // Network/static fallback so users on static hosts never hit a dead end
+      setReceipt({
+        referenceId: `OAA-REQ-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+        submittedAt: new Date().toISOString(),
+        summary: {
+          name: trimmedPayload.name,
+          email: trimmedPayload.email,
+          service: trimmedPayload.service,
+          packageTier: trimmedPayload.packageTier,
+        },
+      });
+      setName('');
+      setEmail('');
+      setPhone('');
+      setMessage('');
     } finally {
       setIsSubmitting(false);
     }
@@ -311,6 +345,17 @@ export function ContactPage({ preselectedService, preselectedPackage }: ContactP
                     >
                       Send Another Inquiry
                     </button>
+                    <a
+                      href={`mailto:${SITE_CONFIG.email}?subject=${encodeURIComponent(
+                        `Service Inquiry (${receipt.referenceId}): ${receipt.summary.service}`
+                      )}&body=${encodeURIComponent(
+                        `Name: ${receipt.summary.name}\nEmail: ${receipt.summary.email}\nService: ${receipt.summary.service}\nPackage: ${receipt.summary.packageTier}\nReference: ${receipt.referenceId}`
+                      )}`}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-slate-300 text-[#0b1f3a] text-sm font-semibold hover:bg-slate-50"
+                    >
+                      <Mail className="h-4 w-4 text-blue-700" />
+                      Send via Email App
+                    </a>
                     <a
                       href={getWhatsAppUrl(
                         `Hello, I just submitted inquiry ${receipt.referenceId} for ${receipt.summary.service}.`

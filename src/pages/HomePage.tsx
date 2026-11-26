@@ -1,5 +1,6 @@
 import { ArrowRight, CheckCircle2, FileText, MessageCircle, ShieldCheck, Table2 } from 'lucide-react';
 import {
+  assetPath,
   DEFAULT_PRICING_PACKAGES,
   getWhatsAppUrl,
   HERO_CONTENT,
@@ -134,7 +135,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 </div>
                 <div className="md:col-span-5 aspect-[4/3] rounded-lg overflow-hidden border border-slate-200 bg-white">
                   <ResilientImage
-                    src="/src/assets/images/service_excel_data_1795671205384.jpg"
+                    src={assetPath('src/assets/images/service_excel_data_1795671205384.jpg')}
                     alt="Excel data management and financial spreadsheets on a laptop"
                     fallbackLabel="MS Excel Data Management"
                     className="w-full h-full object-cover"
@@ -187,7 +188,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
               </div>
               <div className="aspect-[4/3] rounded-lg overflow-hidden border border-slate-200">
                 <ResilientImage
-                  src="/src/assets/images/portfolio_presentation_desk_1795671206898.jpg"
+                  src={assetPath('src/assets/images/portfolio_presentation_desk_1795671206898.jpg')}
                   alt="Corporate PowerPoint presentation displayed on a meeting room laptop"
                   fallbackLabel="PowerPoint Presentations"
                   className="w-full h-full object-cover"
@@ -200,7 +201,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                 <div className="md:col-span-5 aspect-[4/3] rounded-lg overflow-hidden border border-slate-200 bg-white">
                   <ResilientImage
-                    src="/src/assets/images/service_documents_cv_1795671206380.jpg"
+                    src={assetPath('src/assets/images/service_documents_cv_1795671206380.jpg')}
                     alt="Formatted corporate documents and structured resume layouts"
                     fallbackLabel="Document Formatting"
                     className="w-full h-full object-cover"
